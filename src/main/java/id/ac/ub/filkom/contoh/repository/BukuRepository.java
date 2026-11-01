@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface BukuRepository extends JpaRepository<Buku, String> {
 
-    // SELECT * FROM buku WHERE judul LIKE %kata%
+    
     List<Buku> findByJudulContainingIgnoreCase(String kata);
 }
