@@ -4,7 +4,6 @@ import id.ac.ub.filkom.contoh.entity.TransaksiPinjam;
 
 import java.time.LocalDate;
 
-/** Data hasil peminjaman (tipe kembalian pinjamBuku). Kelas biasa, bukan entity. */
 public class Bukti {
 
     private final String idTransaksi;
@@ -22,7 +21,6 @@ public class Bukti {
         this.status = status;
     }
 
-    /** +dari(t : TransaksiPinjam) : Bukti */
     public static Bukti dari(TransaksiPinjam t) {
         return new Bukti(t.getIdTransaksi(), t.getAnggota().getNama(),
                 t.getBuku().getJudul(), t.getTanggalPinjam(), t.getStatus());
