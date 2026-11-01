@@ -14,10 +14,9 @@ public class AnggotaController {
         this.anggotaService = anggotaService;
     }
 
-    // GET http://localhost:8080/anggota
     @GetMapping("/anggota")
     public String daftarAnggota(Model model) {
         model.addAttribute("daftarAnggota", anggotaService.daftarAnggota());
-        return "anggota";             // -> templates/anggota.html
+        return "anggota";             
     }
 }
