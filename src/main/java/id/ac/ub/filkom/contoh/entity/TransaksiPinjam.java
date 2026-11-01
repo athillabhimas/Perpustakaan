@@ -10,7 +10,6 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.UUID;
 
-/** «entity» TransaksiPinjam — tabel transaksi_pinjam. (BARU, slide 43) */
 @Entity
 @Table(name = "transaksi_pinjam")
 public class TransaksiPinjam {
@@ -22,11 +21,11 @@ public class TransaksiPinjam {
     private String idTransaksi;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_anggota")   // FK -> anggota
+    @JoinColumn(name = "id_anggota")  
     private Anggota anggota;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_buku")      // FK -> buku
+    @JoinColumn(name = "id_buku")     
     private Buku buku;
 
     @Column(name = "tanggal_pinjam")
@@ -35,12 +34,11 @@ public class TransaksiPinjam {
     @Column(name = "status", length = 20)
     private String status;
 
-    protected TransaksiPinjam() { }    // wajib untuk JPA
+    protected TransaksiPinjam() { }   
 
-    /** Pesan [7] buat(idAnggota, idBuku) pada sequence 8a. */
     public static TransaksiPinjam buat(Anggota anggota, Buku buku) {
         TransaksiPinjam t = new TransaksiPinjam();
-        // id 9 karakter, contoh: T3F9A1C2B
+       
         t.idTransaksi = "T" + UUID.randomUUID().toString()
                 .substring(0, 8).toUpperCase();
         t.anggota = anggota;
