@@ -9,7 +9,6 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-/** «entity» Anggota — tabel anggota. */
 @Entity
 @Table(name = "anggota")
 public class Anggota {
@@ -21,15 +20,13 @@ public class Anggota {
     @Column(name = "nama", length = 100)
     private String nama;
 
-    // ===== DITAMBAHKAN (slide 42): batas pinjam + relasi ke transaksi =====
     @Column(name = "batas_pinjam")
     private int batasPinjam;
 
-    /** Relasi 1 —— 0..* ke TransaksiPinjam. */
     @OneToMany(mappedBy = "anggota")
     private List<TransaksiPinjam> daftarPinjam = new ArrayList<>();
 
-    protected Anggota() { }   // wajib untuk JPA
+    protected Anggota() { }   
 
     public Anggota(String id, String nama, int batas) {
         this.idAnggota = id;
@@ -37,7 +34,6 @@ public class Anggota {
         this.batasPinjam = batas;
     }
 
-    /** +cekBatasPinjam() : boolean */
     public boolean cekBatasPinjam() {
         long sedangDipinjam = daftarPinjam.stream()
                 .filter(TransaksiPinjam::isDipinjam)
@@ -45,7 +41,6 @@ public class Anggota {
         return sedangDipinjam < batasPinjam;
     }
 
-    /** Menjaga konsistensi relasi dua arah. */
     void catatPinjaman(TransaksiPinjam transaksi) {
         daftarPinjam.add(transaksi);
     }
