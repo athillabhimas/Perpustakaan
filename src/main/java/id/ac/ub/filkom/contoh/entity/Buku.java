@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-/** «entity» Buku — tabel buku. */
 @Entity
 @Table(name = "buku")
 public class Buku {
@@ -20,7 +19,7 @@ public class Buku {
     @Column(name = "stok")
     private int stok;
 
-    protected Buku() { }   // wajib ada untuk JPA
+    protected Buku() { }   
 
     public Buku(String idBuku, String judul, int stok) {
         this.idBuku = idBuku;
@@ -28,14 +27,10 @@ public class Buku {
         this.stok = stok;
     }
 
-    // ===== DITAMBAHKAN (slide 41): aturan stok dienkapsulasi di entity =====
-
-    /** +cekStok() : boolean */
     public boolean cekStok() {
         return stok > 0;
     }
 
-    /** +kurangiStok() : void */
     public void kurangiStok() {
         if (stok <= 0) {
             throw new IllegalStateException("Stok sudah habis");
