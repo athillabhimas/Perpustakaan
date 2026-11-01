@@ -11,11 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * «control» PinjamController pada desain 8a.
- * Di Spring Boot direalisasikan sebagai @Service (BUKAN @Controller),
- * karena tugasnya mengoordinasikan alur bisnis satu use case.
- */
+
 @Service
 public class PinjamService {
 
@@ -31,40 +27,33 @@ public class PinjamService {
         this.transaksiRepository = transaksiRepository;
     }
 
-    /** +daftarBuku() : List<Buku> — langkah 1-2 scenario. */
     @Transactional(readOnly = true)
     public List<Buku> daftarBuku() {
         return bukuRepository.findAll();
     }
 
-    /** +pinjamBuku(idAnggota : String, idBuku : String) : Bukti */
     @Transactional
     public Bukti pinjamBuku(String idAnggota, String idBuku) {
-        // Persiapan: ambil objek entity dari database
+        
         Anggota anggota = anggotaRepository.findById(idAnggota)
                 .orElseThrow(() -> PinjamGagalException.tidakDitemukan("Anggota"));
         Buku buku = bukuRepository.findById(idBuku)
                 .orElseThrow(() -> PinjamGagalException.tidakDitemukan("Buku"));
 
-        // [3] cekBatasPinjam() -> [4] boleh pinjam
         if (!anggota.cekBatasPinjam()) {
-            throw PinjamGagalException.melewatiBatas();      // alur 4b
+            throw PinjamGagalException.melewatiBatas();     
         }
 
-        // [5] cekStok() -> [6] stok tersedia / habis
         if (!buku.cekStok()) {
-            throw PinjamGagalException.stokHabis();          // [13] pesanHabis
+            throw PinjamGagalException.stokHabis();         
         }
 
-        // alt [stok tersedia]
-        // [7] buat(idAnggota, idBuku) -> [8] transaksi tersimpan
         TransaksiPinjam transaksi = TransaksiPinjam.buat(anggota, buku);
         transaksiRepository.save(transaksi);
 
-        // [9] kurangiStok() -> [10] ok
         buku.kurangiStok();
         bukuRepository.save(buku);
 
-        return Bukti.dari(transaksi);                        // [11] bukti peminjaman
+        return Bukti.dari(transaksi);                        
     }
 }
