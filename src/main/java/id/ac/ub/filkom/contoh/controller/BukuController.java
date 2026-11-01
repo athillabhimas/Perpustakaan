@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/** Controller: terima request, panggil service, pilih template. */
 @Controller
 public class BukuController {
 
@@ -17,21 +16,19 @@ public class BukuController {
         this.bukuService = bukuService;
     }
 
-    // GET http://localhost:8080/buku?kata=java
     @GetMapping("/buku")
     public String daftarBuku(@RequestParam(required = false) String kata,
                              Model model) {
         model.addAttribute("daftarBuku", bukuService.cariBuku(kata));
         model.addAttribute("kata", kata);
-        return "buku";                // -> templates/buku.html
+        return "buku";               
     }
 
-    // POST dari form tambah buku
     @PostMapping("/buku")
     public String tambahBuku(@RequestParam String idBuku,
                              @RequestParam String judul,
                              @RequestParam int stok) {
         bukuService.tambahBuku(idBuku, judul, stok);
-        return "redirect:/buku";      // pola Post-Redirect-Get
+        return "redirect:/buku";     
     }
 }
